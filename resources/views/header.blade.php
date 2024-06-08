@@ -38,7 +38,7 @@
     <header class="header-container">
         <h1 class="logo">Learnsoft Beliotech Solutions Limited</h1>
         <h3 class="theme">Financial Sales Report</h3>
-        <a href="{{ url('/financialpdf') }}" class="generate-pdf-button">Generate PDF</a>
+        <a href="{{ url('/erpPdfreport') }}" class="generate-pdf-button">Generate PDF</a>
     </header>
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\ErpPdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class,'index'])->name
 Route::get('/sales', [\App\Http\Controllers\CustomerProductDollarSaleController::class,'index'])->name('sales');
 Route::get('/salesbycountry', [\App\Http\Controllers\CustomerProductDollarSaleController::class,'indexCountry'])->name('salesbycountry');
 Route::get('/financialpdf', [PdfController::class, 'generatePdf']);
+Route::get('/erpPdfreport', [ErpPdfController::class, 'showProfilesReport']);

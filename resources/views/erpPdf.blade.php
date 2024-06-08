@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,7 +6,7 @@
     <title>{{ $header }}</title>
     <style>
         @page {
-            margin: 70px 25px; 
+            margin: 70px 25px;
         }
         body {
             font-family: Arial, sans-serif;
@@ -14,50 +15,56 @@
         }
         header {
             position: fixed;
-            top: -70px; 
+            top: -70px;
             left: 0;
             right: 0;
-            height: 60px;
+            height: 50px; /* Adjust height to fit the text */
             background-color: #dcd9d1;
             color: rgb(12, 6, 6);
             text-align: center;
-            line-height: 60px; 
-            padding: 10px;
+            border-bottom: 1px solid black;
+            box-sizing: border-box;
+            line-height: 50px; /* Vertically center the text */
+        }
+        header h2 {
+            margin: 0;
+            padding: 0;
         }
         footer {
             position: fixed;
-            bottom: -50px; 
+            bottom: 0;
             left: 0;
             right: 0;
             height: 40px;
-            background-color: #f3f3db;
+            background-color: white;
             color: rgb(6, 0, 0);
             text-align: center;
-            line-height: 40px; 
-            padding: 10px;
+            line-height: 40px;
+            padding: 0; /* Remove padding to avoid overflow */
         }
-        .page-number {
-            position: fixed;
-            bottom: -30px; 
-            left: 0;
-            right: 0;
-            height: 20px;
-            text-align: center;
-            color: rgb(6, 0, 0);
-            line-height: 20px;
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
         }
         .content {
-            margin-top: 80px; 
-            margin-bottom: 100px; 
+            margin-top: 0px; 
+            margin-bottom: 100px;
         }
-        .page:last-child .content {
-            page-break-after: auto;
+        .page {
+            position: relative;
+            /* Removed page-break-after property */
+        }
+        .page-number {
+            color: rgb(6, 0, 0);
+            font-size: 15px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            table-layout: fixed; 
+            table-layout: fixed;
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -65,15 +72,12 @@
         th {
             background-color: #f2f2f2;
             padding: 12px;
-            word-wrap: break-word; 
+            word-wrap: break-word;
         }
         td {
             padding: 10px;
             text-align: left;
-            word-wrap: break-word; 
-        }
-        .page-number:before {
-            content: counter(page);
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -81,16 +85,10 @@
     <header>
         <h2>{{ $header }}</h2>
     </header>
-    <footer>
-        <p>&copy; Learnsoft 2024</p>
-    </footer>
-    <div class="page-number">
-        <span class="page-number"></span>
-    </div>
     @php
-        $chunks = array_chunk($data, 50); 
+        $chunks = array_chunk($profiles, 50);
     @endphp
-    @foreach($chunks as $chunk)
+    @foreach($chunks as $index => $chunk)
         <div class="page">
             <div class="content">
                 <table>
@@ -114,6 +112,12 @@
                     </tbody>
                 </table>
             </div>
+            <footer>
+                <div class="footer-content">
+                    <div class="page-number">Page {{ $index + 1 }} of {{ count($chunks) }}</div>
+                    <p>&copy; Learnsoft 2024</p>
+                </div>
+            </footer>
         </div>
     @endforeach
 </body>

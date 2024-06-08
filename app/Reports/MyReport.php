@@ -1,23 +1,42 @@
 <?php
 namespace App\Reports;
 
-class MyReport extends \koolreport\KoolReport
+use \koolreport\KoolReport;
+use \koolreport\datasources\ArrayDataSource;
+use App\Models\Profiles;
+
+
+
+class MyReport extends KoolReport
 {
     use \koolreport\laravel\Friendship;
     use \koolreport\bootstrap4\Theme;
-    // By adding above statement, you have claim the friendship between two frameworks
-    // As a result, this report will be able to accessed all databases of Laravel
-    // There are no need to define the settings() function anymore
-    // while you can do so if you have other datasources rather than those
-    // defined in Laravel.
 
-    function setup () {
-        // Let say, you have "sale_database" is defined in Laravel's database settings.
-        // Now you can use that database without any futher setitngs.
-        
-        
-        $this->src("mysql") // use any of your preferred connection type in config/database.php
-        ->query("SELECT * FROM employees")
-        ->pipe($this->dataStore("users")); 
+   public $tableName = "profiles";
+
+    function setup()
+    {
+        // Fetch profiles from the database
+        $profiles = Profiles::all();
+
+        // Format the profiles data
+        $formattedProfiles = $profiles->map(function ($profile) {
+            return [
+                "User ID" => $profile->id,
+                "School Name" => $profile->school_name,
+                "Motto" => $profile->motto,
+                "Phone Number" => $profile->phone_number,
+                "Email" => $profile->email,
+                "Physical Address" => $profile->physical_address,
+                "Created By" => $profile->created_by,
+                "Created At" => $profile->created_at,
+                "Updated At" => $profile->updated_at,
+                "Logo" => $profile->logo
+            ];
+        })->toArray();
+
+        // Use the formatted data in the report
+        $this->src('array', ['data' => $formattedProfiles])
+             ->pipe($this->dataStore('profiles'));
     }
 }
