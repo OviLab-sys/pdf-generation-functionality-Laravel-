@@ -16,7 +16,7 @@ class MyReport extends KoolReport
 
     function setup()
     {
-        // Fetch profiles from the database
+      /*  // Fetch profiles from the database
         $profiles = Profiles::all();
 
         // Format the profiles data
@@ -35,8 +35,9 @@ class MyReport extends KoolReport
             ];
         })->toArray();
 
-        // Use the formatted data in the report
-        $this->src('array', ['data' => $formattedProfiles])
-             ->pipe($this->dataStore('profiles'));
+        // Use the formatted data in the report */
+        $this->src("mysql")
+             ->query("SELECT id, school_name, phone_number, email, created_at FROM {$this->tableName}")
+             ->pipe($this->dataStore("users"));
     }
 }
